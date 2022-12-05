@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:neyasis_case/models/account.dart';
 import 'package:neyasis_case/screens/account_list/account_list_viewmodel.dart';
+import 'package:pagination_view/pagination_view.dart';
 import 'package:provider/provider.dart';
 
 class AccountList extends StatefulWidget {
@@ -10,12 +12,12 @@ class AccountList extends StatefulWidget {
 }
 
 class _AccountListState extends State<AccountList> {
+GlobalKey<PaginationViewState>? key;
+
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Provider.of<AccountListViewModel>(context, listen: false).getAccounts();
-    }); // <=== Method which should show Dialog box if email is not verified which is coming from "Auth" Provider
+      key = GlobalKey<PaginationViewState>();
   }
 
   @override
@@ -26,24 +28,24 @@ class _AccountListState extends State<AccountList> {
       ),
       body: Consumer<AccountListViewModel>(
           builder: (context, accountListViewModel, child) =>
-              accountListViewModel.isLoading
-                  ? Center(
-                      child: CircularProgressIndicator(),
-                    )
-                  : ListView.builder(
-                      itemCount: accountListViewModel.accounts.length,
-                      itemBuilder: ((context, index) => ListTile(
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(color: Colors.grey, width: 1),
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            subtitle: Text(accountListViewModel
-                                .accounts[index].surname
-                                .toString()),
-                            title: Text(accountListViewModel
-                                .accounts[index].name
-                                .toString()),
-                          )))),
+              PaginationView<Account>(
+                pullToRefresh: true,
+                key: key,
+                itemBuilder: (context, item, index) => ListTile(
+                  title: Text(item.name!),
+                ),
+                preloadedItems : accountListViewModel.accounts,
+                pageFetch:accountListViewModel.pageFetch,
+                onEmpty: const Center(
+                  child: Text('Sorry! This is empty'),
+                ),
+                onError: (dynamic error) => const Center(
+                  child: Text('Some error occured'),
+                ),
+                initialLoader: const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              )),
     );
   }
 }

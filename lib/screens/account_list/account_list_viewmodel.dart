@@ -5,10 +5,11 @@ import 'package:neyasis_case/services/account_service.dart';
 class AccountListViewModel extends ChangeNotifier {
   List<Account> accounts = [];
   bool isLoading = false;
+  int page = 1;
 
-  void getAccounts() async {
+  Future<void> getAccounts() async {
     isLoading = true;
-     notifyListeners();
+
     AccountService accountService = AccountService();
 
     var response = await accountService.getAccounts();
@@ -20,7 +21,35 @@ class AccountListViewModel extends ChangeNotifier {
     }
 
     isLoading = false;
+  }
 
-    notifyListeners();
+  Future<List<Account>> pageFetch(int currentListSize) async {
+    if (accounts.isEmpty) {
+      await getAccounts();
+    }
+
+    page = (currentListSize / 20).round();
+
+    if (accounts.isNotEmpty) {
+      if (currentListSize + 1 >= accounts.length) {
+        return Future.value([]);
+      } else {
+        List<Account> nextAccountList = [];
+        for (var i = 0; i < 20; i++) {
+          if (i + currentListSize < accounts.length) {
+            nextAccountList.add(accounts[i + currentListSize]);
+          }
+        }
+
+        // final List<Account> nextAccountList = List.generate(
+        //   20,
+        //   (int index) => accounts[index + currentListSize],
+        // );
+
+        return nextAccountList;
+      }
+    } else {
+      return Future.value([]);
+    }
   }
 }
