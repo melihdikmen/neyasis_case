@@ -16,6 +16,8 @@ class Account extends BaseModel {
   String? phoneNumber;
 
   String? identity;
+
+  String? id;
   Account();
 
   @override

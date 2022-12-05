@@ -14,7 +14,8 @@ Account _$AccountFromJson(Map<String, dynamic> json) => Account()
       : DateTime.parse(json['birthDate'] as String)
   ..sallary = (json['sallary'] as num?)?.toDouble()
   ..phoneNumber = json['phoneNumber'] as String?
-  ..identity = json['identity'] as String?;
+  ..identity = json['identity'] as String?
+  ..id = json['id'] as String?;
 
 Map<String, dynamic> _$AccountToJson(Account instance) => <String, dynamic>{
       'name': instance.name,
@@ -23,4 +24,5 @@ Map<String, dynamic> _$AccountToJson(Account instance) => <String, dynamic>{
       'sallary': instance.sallary,
       'phoneNumber': instance.phoneNumber,
       'identity': instance.identity,
+      'id': instance.id,
     };
