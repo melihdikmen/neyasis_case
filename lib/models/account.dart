@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:neyasis_case/base/base_model.dart';
+import '../base/base_model.dart';
 
 part 'account.g.dart';
 
@@ -9,14 +9,15 @@ class Account extends BaseModel {
 
   String? surname;
 
-  DateTime? birthDate;
+  String? birthDate;
 
   double? sallary;
 
   String? phoneNumber;
 
   String? identity;
-
+  
+  @JsonKey(includeIfNull: false)
   String? id;
   Account();
 

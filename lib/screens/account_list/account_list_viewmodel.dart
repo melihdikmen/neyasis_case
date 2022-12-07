@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:neyasis_case/models/account.dart';
-import 'package:neyasis_case/services/account_service.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:neyasis_case/extensions/string_extensions.dart';
+import '../../models/account.dart';
+import '../../services/account_service.dart';
 import 'package:pagination_view/pagination_view.dart';
 
 class AccountListViewModel extends ChangeNotifier {
@@ -21,9 +23,11 @@ class AccountListViewModel extends ChangeNotifier {
 
     if (response != null) {
       accounts = response;
-      for (var e in accounts) {  deletetingStates[e.id!] = false;}
+      for (var e in accounts) {
+        deletetingStates[e.id!] = false;
+      }
     } else {
-      //TODO show error
+      Fluttertoast.showToast(msg: "dateGetError".locale);
     }
 
     isLoading = false;
@@ -54,7 +58,8 @@ class AccountListViewModel extends ChangeNotifier {
     }
   }
 
-  void deleteAccount(Account account, GlobalKey<PaginationViewState> key) async {
+  void deleteAccount(
+      Account account, GlobalKey<PaginationViewState> key) async {
     AccountService accountService = AccountService();
     deletetingStates[account.id!] = true;
     notifyListeners();
@@ -65,7 +70,7 @@ class AccountListViewModel extends ChangeNotifier {
       notifyListeners();
       key.currentState!.refresh();
     } else {
-      //TODO error
+      Fluttertoast.showToast(msg: "deleteAccountError".locale);
     }
 
     deletetingStates[account.id!] = false;

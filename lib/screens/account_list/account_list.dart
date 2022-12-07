@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:neyasis_case/extensions/string_extensions.dart';
-import 'package:neyasis_case/models/account.dart';
-import 'package:neyasis_case/screens/account_list/account_list_viewmodel.dart';
+import 'package:neyasis_case/screens/account_detail/account_detail.dart';
+import 'package:neyasis_case/screens/add_account/add_account.dart';
+import '../../extensions/string_extensions.dart';
+import '../../models/account.dart';
+import 'account_list_viewmodel.dart';
 import 'package:pagination_view/pagination_view.dart';
 import 'package:provider/provider.dart';
 
@@ -28,18 +30,22 @@ class _AccountListState extends State<AccountList> {
     return Scaffold(
       appBar: AppBar(
         title:  Text("accountList".locale),
+        actions: [IconButton(onPressed: ()=> Navigator.push(context, MaterialPageRoute(builder:(_)=> AddAccount())), icon: Icon(Icons.add))],
       ),
       body: Consumer<AccountListViewModel>(
           builder: (context, accountListViewModel, child) =>
-              PaginationView<Account>(
+              PaginationView<Account>( 
                 pullToRefresh: true,
                 key: key,
-                itemBuilder: (context, item, index) => ListTile(
-                  trailing:accountListViewModel.deletetingStates.isNotEmpty && accountListViewModel.deletetingStates[item.id]! ? const CircularProgressIndicator() :  IconButton(
-                    icon: const Icon(Icons.delete),
-                    onPressed: () => _showMyDialog(item,accountListViewModel),
+                itemBuilder: (context, item, index) => InkWell( 
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_)=>  AccountDetail(selectedAccount: item,))),
+                  child: ListTile(
+                    trailing:accountListViewModel.deletetingStates.isNotEmpty && accountListViewModel.deletetingStates[item.id]! ? const CircularProgressIndicator() :  IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () => _showMyDialog(item,accountListViewModel),
+                    ),
+                    title: Text(item.name!),
                   ),
-                  title: Text(item.name!),
                 ),
                 preloadedItems: accountListViewModel.accounts,
                 pageFetch: accountListViewModel.pageFetch,
