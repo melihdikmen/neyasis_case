@@ -1,0 +1,13 @@
+{
+    "accountList":"Hesap Listesi",
+    "emptyList":"Hesap yok.",
+    "dateGetError":"Veri alınamadı. Bazı hatalar oluştu.",
+    "deleteAccount":"Hesap Sil",
+    "deleteAccountWarning":"Bu hesabı silmek istiyor musunuz?",
+    "okLabel":"Tamam",
+    "cancelLabel":"İptal"
+
+    
+
+
+}

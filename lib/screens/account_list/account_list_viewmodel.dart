@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:neyasis_case/models/account.dart';
 import 'package:neyasis_case/services/account_service.dart';
+import 'package:pagination_view/pagination_view.dart';
 
 class AccountListViewModel extends ChangeNotifier {
   List<Account> accounts = [];
   bool isLoading = false;
   int page = 1;
+  Map<String, bool> deletetingStates = {};
+  BuildContext? context;
+
+  void setContext(BuildContext context) => this.context = context;
 
   Future<void> getAccounts() async {
     isLoading = true;
@@ -16,6 +21,7 @@ class AccountListViewModel extends ChangeNotifier {
 
     if (response != null) {
       accounts = response;
+      for (var e in accounts) {  deletetingStates[e.id!] = false;}
     } else {
       //TODO show error
     }
@@ -41,15 +47,28 @@ class AccountListViewModel extends ChangeNotifier {
           }
         }
 
-        // final List<Account> nextAccountList = List.generate(
-        //   20,
-        //   (int index) => accounts[index + currentListSize],
-        // );
-
         return nextAccountList;
       }
     } else {
       return Future.value([]);
     }
+  }
+
+  void deleteAccount(Account account, GlobalKey<PaginationViewState> key) async {
+    AccountService accountService = AccountService();
+    deletetingStates[account.id!] = true;
+    notifyListeners();
+    Account? response = await accountService.deleteAccount(account);
+
+    if (response != null) {
+      accounts = [];
+      notifyListeners();
+      key.currentState!.refresh();
+    } else {
+      //TODO error
+    }
+
+    deletetingStates[account.id!] = false;
+    notifyListeners();
   }
 }

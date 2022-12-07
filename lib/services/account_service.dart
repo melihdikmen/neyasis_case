@@ -7,7 +7,18 @@ class AccountService {
         .dioGet<List<Account>, Account>("/users", Account());
 
     if (response != null) {
-       return response;
+      return response;
+    } else {
+      return null;
+    }
+  }
+
+  Future<Account?> deleteAccount(Account account) async {
+    Account? response = await NetworkManager.instance!
+        .dioDelete<Account, Account>("/users/${account.id}", Account());
+
+    if (response != null) {
+      return response;
     } else {
       return null;
     }

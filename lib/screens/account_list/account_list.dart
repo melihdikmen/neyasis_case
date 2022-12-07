@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:neyasis_case/extensions/string_extensions.dart';
 import 'package:neyasis_case/models/account.dart';
 import 'package:neyasis_case/screens/account_list/account_list_viewmodel.dart';
 import 'package:pagination_view/pagination_view.dart';
@@ -12,19 +13,21 @@ class AccountList extends StatefulWidget {
 }
 
 class _AccountListState extends State<AccountList> {
-GlobalKey<PaginationViewState>? key;
+  GlobalKey<PaginationViewState>? key;
 
   @override
   void initState() {
     super.initState();
-      key = GlobalKey<PaginationViewState>();
+    key = GlobalKey<PaginationViewState>();
+   
   }
 
   @override
   Widget build(BuildContext context) {
+     Provider.of<AccountListViewModel>(context).setContext(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Accounts"),
+        title:  Text("accountList".locale),
       ),
       body: Consumer<AccountListViewModel>(
           builder: (context, accountListViewModel, child) =>
@@ -32,20 +35,59 @@ GlobalKey<PaginationViewState>? key;
                 pullToRefresh: true,
                 key: key,
                 itemBuilder: (context, item, index) => ListTile(
+                  trailing:accountListViewModel.deletetingStates.isNotEmpty && accountListViewModel.deletetingStates[item.id]! ? const CircularProgressIndicator() :  IconButton(
+                    icon: const Icon(Icons.delete),
+                    onPressed: () => _showMyDialog(item,accountListViewModel),
+                  ),
                   title: Text(item.name!),
                 ),
-                preloadedItems : accountListViewModel.accounts,
-                pageFetch:accountListViewModel.pageFetch,
-                onEmpty: const Center(
-                  child: Text('Sorry! This is empty'),
+                preloadedItems: accountListViewModel.accounts,
+                pageFetch: accountListViewModel.pageFetch,
+                onEmpty:  Center(
+                  child: Text('emptyList'.locale),
                 ),
-                onError: (dynamic error) => const Center(
-                  child: Text('Some error occured'),
+                onError: (dynamic error) =>  Center(
+                  child: Text('dateGetError'.locale),
                 ),
                 initialLoader: const Center(
                   child: CircularProgressIndicator(),
                 ),
               )),
+    );
+  }
+
+  Future<void> _showMyDialog(Account item,AccountListViewModel accountListViewModel) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title:  Text('deleteAccount'.locale),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children:  <Widget>[
+             
+                Text('deleteAccountWarning'.locale),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child:  Text('okLabel'.locale),
+              onPressed: (){
+                accountListViewModel.deleteAccount(item,key!);
+                Navigator.of(context).pop();
+              }
+            ),
+            TextButton(
+              child:  Text('cancelLabel'.locale),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

@@ -1,10 +1,16 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:neyasis_case/screens/account_list/account_list.dart';
 import 'package:neyasis_case/screens/account_list/account_list_viewmodel.dart';
 import 'package:provider/provider.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+  runApp(EasyLocalization(
+      path: 'assets/translations',
+      supportedLocales: const [Locale('en'),Locale('tr')],
+      child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -15,7 +21,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'Flutter Demo',
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
         theme: ThemeData(
+          
           // This is the theme of your application.
           //
           // Try running your application with "flutter run". You'll see the
