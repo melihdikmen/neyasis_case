@@ -9,7 +9,7 @@ class Account extends BaseModel {
 
   String? surname;
 
-  String? birthDate;
+  DateTime? birthDate;
 
   double? sallary;
 

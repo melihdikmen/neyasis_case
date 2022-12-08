@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:neyasis_case/extensions/string_extensions.dart';
+import 'package:neyasis_case/helpers/date_helper.dart';
 import 'package:neyasis_case/models/account.dart';
 import 'package:neyasis_case/services/account_service.dart';
 
@@ -60,7 +61,7 @@ class AccountDetailViewModel extends ChangeNotifier {
         ..phoneNumber = phoneNumberTextEditingController.text
         ..identity = identityTextEditingController.text
         ..id = selectedAccount!.id
-        ..birthDate = birthDateTextEditingController.text);
+        ..birthDate = DateHelper.stringToDate(birthDateTextEditingController.text));
 
       if (response != null) {
       } else {}
