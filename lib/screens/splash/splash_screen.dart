@@ -1,13 +1,15 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:neyasis_case/net/network_manager.dart';
 import 'package:neyasis_case/screens/account_list/account_list.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
-
+ 
   @override
   Widget build(BuildContext context) {
+
     Timer(
         const Duration(seconds: 5),
         () => Navigator.of(context).pushReplacement(MaterialPageRoute(

@@ -42,9 +42,12 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
+
+
+
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.neyasis_case"
+        applicationId "neyasis.case"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
         minSdkVersion flutter.minSdkVersion
@@ -52,6 +55,33 @@ android {
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
+    flavorDimensions "mode"
+    productFlavors {
+        neyasisTest {
+            dimension "mode"
+            applicationIdSuffix '.test'
+            versionCode 1
+            versionName "1.0.0"
+            resValue "string", "app_name", "Neyasis Test"
+        }
+
+        neyasisTest {
+            dimension "mode"
+            applicationIdSuffix '.uat'
+            versionCode 2
+            versionName "2.0.0"
+            resValue "string", "app_name", "Neyasis UAT"
+        }
+
+        prod {
+            dimension "mode"
+            applicationIdSuffix '.prod'
+            versionName "3.0.0"
+            versionCode 3
+            resValue "string", "app_name", "Neyasis"
+        }
+    }
+
 
     buildTypes {
         release {

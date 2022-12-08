@@ -18,14 +18,13 @@ class NetworkManager {
   Dio? _dio;
 
   NetworkManager._init() {
-    final baseOptions =
-        BaseOptions(baseUrl: "https://638e02774190defdb753a91e.mockapi.io");
-
-    _dio = Dio(baseOptions);
+    // final baseOptions =
+    //     BaseOptions(baseUrl: "https://638e02774190defdb753a91e.mockapi.io");
+    _dio = Dio();
   }
 
-  setBaseApiUrl() {
-    _dio!.options.baseUrl = "https://638e02774190defdb753a91e.mockapi.io";
+  setBaseApiUrl(String baseApiUrl) {
+    _dio!.options.baseUrl = baseApiUrl;
   }
 
   Future<R?> dioPost<R, T extends BaseModel>(
