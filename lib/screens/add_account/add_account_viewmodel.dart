@@ -34,7 +34,7 @@ class AddAccountViewModel extends ChangeNotifier {
         ..surname = surnameTextEditingController.text
         ..sallary = double.parse(salaryTextEditingController.text)
         ..phoneNumber = phoneNumberTextEditingController.text
-        ..identity = phoneNumberTextEditingController.text
+        ..identity = identityTextEditingController.text
         ..birthDate = birthDateTextEditingController.text);
 
       if (response != null) {

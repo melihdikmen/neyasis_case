@@ -58,7 +58,7 @@ class AccountDetailViewModel extends ChangeNotifier {
         ..surname = surnameTextEditingController.text
         ..sallary = double.parse(salaryTextEditingController.text)
         ..phoneNumber = phoneNumberTextEditingController.text
-        ..identity = phoneNumberTextEditingController.text
+        ..identity = identityTextEditingController.text
         ..id = selectedAccount!.id
         ..birthDate = birthDateTextEditingController.text);
 
