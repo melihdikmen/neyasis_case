@@ -15,11 +15,7 @@ pipeline {
                 sh "rm -rf brbuild_ios" //This removes the previous checkout of brbuild_ios if it exists.
             }
         }
-        stage ('Flutter Doctor') {
-            steps {
-                sh "flutter doctor -v"
-            }
-        }
+       
         stage ('Flutter Build APK') {
             steps {
                 sh "flutter build apk --flavor neyasisTest -t lib/main.test.dart"
