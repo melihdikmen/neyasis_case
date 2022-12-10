@@ -6,18 +6,19 @@ import '../../services/account_service.dart';
 import 'package:pagination_view/pagination_view.dart';
 
 class AccountListViewModel extends ChangeNotifier {
+  AccountListViewModel(this.accountService);
+
   List<Account> accounts = [];
   bool isLoading = false;
   int page = 1;
   Map<String, bool> deletetingStates = {};
   BuildContext? context;
+  final AccountService accountService;
 
   void setContext(BuildContext context) => this.context = context;
 
   Future<void> getAccounts() async {
     isLoading = true;
-
-    AccountService accountService = AccountService();
 
     var response = await accountService.getAccounts();
 
@@ -58,22 +59,25 @@ class AccountListViewModel extends ChangeNotifier {
     }
   }
 
-  void deleteAccount(
+  Future<bool> deleteAccount(
       Account account, GlobalKey<PaginationViewState> key) async {
     AccountService accountService = AccountService();
     deletetingStates[account.id!] = true;
+    bool result = false;
     notifyListeners();
     Account? response = await accountService.deleteAccount(account);
 
     if (response != null) {
       accounts = [];
       notifyListeners();
-      key.currentState!.refresh();
+      if (key is PaginationViewState) key.currentState!.refresh();
+      result = true;
     } else {
-      Fluttertoast.showToast(msg: "deleteAccountError".locale);
+      result = false;
     }
 
     deletetingStates[account.id!] = false;
     notifyListeners();
+    return result;
   }
 }

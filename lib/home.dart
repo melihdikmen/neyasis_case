@@ -5,6 +5,7 @@ import 'package:neyasis_case/screens/account_detail/account_detail_viewmodel.dar
 import 'package:neyasis_case/screens/account_list/account_list_viewmodel.dart';
 import 'package:neyasis_case/screens/add_account/add_account_viewmodel.dart';
 import 'package:neyasis_case/screens/splash/splash_screen.dart';
+import 'package:neyasis_case/services/account_service.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatelessWidget {
@@ -21,13 +22,13 @@ class Home extends StatelessWidget {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider<AccountListViewModel>(
-            create: (_) => AccountListViewModel(),
+            create: (_) => AccountListViewModel(AccountService(),),
           ),
           ChangeNotifierProvider<AccountDetailViewModel>(
-            create: (_) => AccountDetailViewModel(),
+            create: (_) => AccountDetailViewModel(AccountService()),
           ),
             ChangeNotifierProvider<AddAccountViewModel>(
-            create: (_) => AddAccountViewModel(),
+            create: (_) => AddAccountViewModel(AccountService()),
           )
         ],
         child: MaterialApp(

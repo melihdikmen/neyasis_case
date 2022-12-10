@@ -7,6 +7,7 @@ import '../../models/account.dart';
 import '../../services/account_service.dart';
 
 class AddAccountViewModel extends ChangeNotifier {
+  AddAccountViewModel(this.accountService);
   TextEditingController nameTextEditingController = TextEditingController();
   TextEditingController surnameTextEditingController = TextEditingController();
   TextEditingController salaryTextEditingController = TextEditingController();
@@ -24,10 +25,10 @@ class AddAccountViewModel extends ChangeNotifier {
 
   bool isUpdating = false;
   bool isLoading = false;
+  final AccountService accountService;
 
-  void addAccount() async {
+  Future<void> addAccount() async {
     if (verifyInputs()) {
-      AccountService accountService = AccountService();
       isUpdating = true;
       notifyListeners();
       Account? response = await accountService.addAccount(Account()
@@ -36,7 +37,8 @@ class AddAccountViewModel extends ChangeNotifier {
         ..sallary = double.parse(salaryTextEditingController.text)
         ..phoneNumber = phoneNumberTextEditingController.text
         ..identity = identityTextEditingController.text
-      ..birthDate = DateHelper.stringToDate(birthDateTextEditingController.text));
+        ..birthDate =
+            DateHelper.stringToDate(birthDateTextEditingController.text));
 
       if (response != null) {
       } else {

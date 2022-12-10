@@ -8,6 +8,7 @@ import 'package:neyasis_case/models/account.dart';
 import 'package:neyasis_case/services/account_service.dart';
 
 class AccountDetailViewModel extends ChangeNotifier {
+  AccountDetailViewModel(this.accountService);
   TextEditingController nameTextEditingController = TextEditingController();
   TextEditingController surnameTextEditingController = TextEditingController();
   TextEditingController salaryTextEditingController = TextEditingController();
@@ -27,9 +28,10 @@ class AccountDetailViewModel extends ChangeNotifier {
   bool isLoading = false;
 
   Account? selectedAccount;
+  final AccountService accountService;
 
-  void getAccountDetail(Account account) async {
-    AccountService accountService = AccountService();
+  Future<void> getAccountDetail(Account account) async {
+    
     isLoading = true;
     notifyListeners();
     Account? response = await accountService.getAccountDetail(account);
@@ -49,9 +51,8 @@ class AccountDetailViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateAccount() async {
+  Future<void> updateAccount() async {
     if (verifyInputs()) {
-      AccountService accountService = AccountService();
       isUpdating = true;
       notifyListeners();
       Account? response = await accountService.updateAccount(Account()
@@ -64,7 +65,9 @@ class AccountDetailViewModel extends ChangeNotifier {
         ..birthDate = DateHelper.stringToDate(birthDateTextEditingController.text));
 
       if (response != null) {
-      } else {}
+      } else {
+         Fluttertoast.showToast(msg: "dateGetError".locale);
+      }
       isUpdating = false;
       notifyListeners();
     }

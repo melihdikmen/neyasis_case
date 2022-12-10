@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:neyasis_case/screens/account_detail/account_detail.dart';
 import 'package:neyasis_case/screens/add_account/add_account.dart';
 import '../../extensions/string_extensions.dart';
@@ -80,9 +81,11 @@ class _AccountListState extends State<AccountList> {
           actions: <Widget>[
             TextButton(
               child:  Text('okLabel'.locale),
-              onPressed: (){
-                accountListViewModel.deleteAccount(item,key!);
-                Navigator.of(context).pop();
+              onPressed: ()async{
+                 Navigator.of(context).pop();
+                await accountListViewModel.deleteAccount(item,key!);
+                Fluttertoast.showToast(msg: "deleteAccountError".locale);
+               
               }
             ),
             TextButton(
