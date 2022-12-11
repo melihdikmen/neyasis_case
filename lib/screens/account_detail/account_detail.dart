@@ -12,7 +12,7 @@ import 'package:flutter/services.dart';
 
 class AccountDetail extends StatefulWidget {
   const AccountDetail({super.key, required this.selectedAccount});
-final Account selectedAccount;
+  final Account selectedAccount;
   @override
   State<AccountDetail> createState() => _AccountDetailState();
 }
@@ -30,7 +30,6 @@ class _AccountDetailState extends State<AccountDetail> {
 
   @override
   Widget build(BuildContext context) {
-       
     return Scaffold(
       appBar: AppBar(
         title: Text("accountDetail".locale),
@@ -41,63 +40,73 @@ class _AccountDetailState extends State<AccountDetail> {
 }
 
 Widget body() => Consumer<AccountDetailViewModel>(
-      builder: ((context, provider, child) => provider.isLoading ? Center(child: CircularProgressIndicator(),) : SingleChildScrollView(
-            child: Column(
-              children: [
-                AccountDetailInput(
-                  errorText: provider.nameInputErrorText,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp('[a-zA-Z]'))
-                  ],
-                  controller: provider.nameTextEditingController,
-                  text: "nameLabel".locale,
-                ),
-                AccountDetailInput(
-                  errorText: provider.surnameInputErrorText,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp('[a-zA-Z]'))
-                  ],
-                  controller: provider.surnameTextEditingController,
-                  text: "surnameLabel".locale,
-                ),
-                AccountDetailInput(
-                  errorText: provider.salaryInputErrorText,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp('[0-9]'))
-                  ],
-                  controller: provider.salaryTextEditingController,
-                  text: "salaryLabel".locale,
-                ),
-                AccountDetailInput(
-                  errorText: provider.phoneNumberInputErrorText,
-                  controller: provider.phoneNumberTextEditingController,
-                  text: "phoneNumberLabel".locale,
-                ),
-                AccountDetailInput(
-                  errorText: provider.identityInputErrorText,
-                  controller: provider.identityTextEditingController,
-                  text: "identityLabel".locale,
-                ),
-                getDateLabel(provider, context),
-                Container(
-                  margin: const EdgeInsets.only(top: 10),
-                  child: SizedBox(
-                      width: MediaQuery.of(context).size.width - 10,
-                      child: ElevatedButton(
-                        onPressed: provider.updateAccount,
-                        child: provider.isUpdating
-                            ? const SizedBox(
-                                height: 25,
-                                width: 25,
-                                child:  CircularProgressIndicator(
-                                  color: Colors.white,
-                                ))
-                            : Text("updateButton".locale),
-                      )),
-                )
-              ],
-            ),
-          )),
+      builder: ((context, provider, child) => provider.isLoading
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : SingleChildScrollView(
+              child: Column(
+                children: [
+                  AccountDetailInput(
+                    key: const Key("name_input"),
+                    errorText: provider.nameInputErrorText,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp('[a-zA-Z]'))
+                    ],
+                    controller: provider.nameTextEditingController,
+                    text: "nameLabel".locale,
+                  ),
+                  AccountDetailInput(
+                    key: const Key("surname_input"),
+                    errorText: provider.surnameInputErrorText,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp('[a-zA-Z]'))
+                    ],
+                    controller: provider.surnameTextEditingController,
+                    text: "surnameLabel".locale,
+                  ),
+                  AccountDetailInput(
+                    key: const Key("salary_input"),
+                    errorText: provider.salaryInputErrorText,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp('[0-9]'))
+                    ],
+                    controller: provider.salaryTextEditingController,
+                    text: "salaryLabel".locale,
+                  ),
+                  AccountDetailInput(
+                    key: const Key("phone_number_input"),
+                    errorText: provider.phoneNumberInputErrorText,
+                    controller: provider.phoneNumberTextEditingController,
+                    text: "phoneNumberLabel".locale,
+                  ),
+                  AccountDetailInput(
+                       key: const Key("ide"),
+                    errorText: provider.identityInputErrorText,
+                    controller: provider.identityTextEditingController,
+                    text: "identityLabel".locale,
+                  ),
+                  getDateLabel(provider, context),
+                  Container(
+                    margin: const EdgeInsets.only(top: 10),
+                    child: SizedBox(
+                        width: MediaQuery.of(context).size.width - 10,
+                        child: ElevatedButton(
+                          key: const Key("update_button"),
+                          onPressed: provider.updateAccount,
+                          child: provider.isUpdating
+                              ? const SizedBox(
+                                  height: 25,
+                                  width: 25,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                  ))
+                              : Text("updateButton".locale),
+                        )),
+                  )
+                ],
+              ),
+            )),
     );
 
 Widget getDateLabel(AccountDetailViewModel provider, BuildContext context) =>

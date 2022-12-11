@@ -19,7 +19,7 @@
     "salaryRequired":"Salary input required",
     "identityRequired":"Identity input required",
     "phonenumberRequired":"Phone number input required",
-    "addAcountLabel":"Add Acount",
+    "addAcountLabel":"Add Account",
     "deleteAccountError":"Account cannot delete. Some error occured.",
     "addAccountError": "Account cannot add. Some errır occured."
     

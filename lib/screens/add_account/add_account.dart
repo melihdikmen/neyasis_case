@@ -45,49 +45,52 @@ class _AddAccountState extends State<AddAccount> {
             : SingleChildScrollView(
                 child: Column(
                   children: [
-                    AccountDetailInput(
-                      errorText: provider.nameInputErrorText,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.allow(RegExp('[a-zA-Z]'))
-                      ],
-                      controller: provider.nameTextEditingController,
-                      text: "nameLabel".locale,
-                    ),
-                    AccountDetailInput(
-                      errorText: provider.surnameInputErrorText,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.allow(RegExp('[a-zA-Z]'))
-                      ],
-                      controller: provider.surnameTextEditingController,
-                      text: "surnameLabel".locale,
-                    ),
-                    AccountDetailInput(
-                      errorText: provider.salaryInputErrorText,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.allow(RegExp('[0-9]'))
-                      ],
-                      controller: provider.salaryTextEditingController,
-                      text: "salaryLabel".locale,
-                    ),
-                    AccountDetailInput(
-                      errorText: provider.phoneNumberInputErrorText,
-                      controller: provider.phoneNumberTextEditingController,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.allow(RegExp('[0-9]'))
-                      ],
-                      text: "phoneNumberLabel".locale,
-                    ),
-                    AccountDetailInput(
-                      errorText: provider.identityInputErrorText,
-                      controller: provider.identityTextEditingController,
-                      text: "identityLabel".locale,
-                    ),
+                     AccountDetailInput(
+                    key: const Key("name_input"),
+                    errorText: provider.nameInputErrorText,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp('[a-zA-Z]'))
+                    ],
+                    controller: provider.nameTextEditingController,
+                    text: "nameLabel".locale,
+                  ),
+                  AccountDetailInput(
+                    key: const Key("surname_input"),
+                    errorText: provider.surnameInputErrorText,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp('[a-zA-Z]'))
+                    ],
+                    controller: provider.surnameTextEditingController,
+                    text: "surnameLabel".locale,
+                  ),
+                  AccountDetailInput(
+                    key: const Key("salary_input"),
+                    errorText: provider.salaryInputErrorText,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp('[0-9]'))
+                    ],
+                    controller: provider.salaryTextEditingController,
+                    text: "salaryLabel".locale,
+                  ),
+                  AccountDetailInput(
+                    key: const Key("phone_number_input"),
+                    errorText: provider.phoneNumberInputErrorText,
+                    controller: provider.phoneNumberTextEditingController,
+                    text: "phoneNumberLabel".locale,
+                  ),
+                  AccountDetailInput(
+                    key: const Key("identity_input"),
+                    errorText: provider.identityInputErrorText,
+                    controller: provider.identityTextEditingController,
+                    text: "identityLabel".locale,
+                  ),
                     getDateLabel(provider, context),
                     Container(
                       margin: const EdgeInsets.only(top: 10),
                       child: SizedBox(
                           width: MediaQuery.of(context).size.width - 10,
                           child: ElevatedButton(
+                            key: const Key("add_button"),
                             onPressed: provider.addAccount,
                             child: provider.isUpdating
                                 ? const SizedBox(

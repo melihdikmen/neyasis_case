@@ -31,7 +31,7 @@ class _AccountListState extends State<AccountList> {
     return Scaffold(
       appBar: AppBar(
         title:  Text("accountList".locale),
-        actions: [IconButton(onPressed: ()=> Navigator.push(context, MaterialPageRoute(builder:(_)=> AddAccount())), icon: Icon(Icons.add))],
+        actions: [IconButton(onPressed: ()=> Navigator.push(context, MaterialPageRoute(builder:(_)=> AddAccount())), icon: Icon(Icons.add,key: Key("icon_add"),))],
       ),
       body: Consumer<AccountListViewModel>(
           builder: (context, accountListViewModel, child) =>
@@ -39,10 +39,11 @@ class _AccountListState extends State<AccountList> {
                 pullToRefresh: true,
                 key: key,
                 itemBuilder: (context, item, index) => InkWell( 
+                  key: Key("listItem"),
                   onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_)=>  AccountDetail(selectedAccount: item,))),
                   child: ListTile(
                     trailing:accountListViewModel.deletetingStates.isNotEmpty && accountListViewModel.deletetingStates[item.id]! ? const CircularProgressIndicator() :  IconButton(
-                      icon: const Icon(Icons.delete),
+                      icon: const Icon(Icons.delete,key: Key("icon_delete"),),
                       onPressed: () => _showMyDialog(item,accountListViewModel),
                     ),
                     title: Text(item.name!),
